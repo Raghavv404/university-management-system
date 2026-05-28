@@ -1,0 +1,252 @@
+{
+  "tests": 42,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "IdGeneratorTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "IdsAreMonotonicallyIncreasing",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/utils\/IdGeneratorTest.cpp",
+          "line": 5
+        },
+        {
+          "name": "SeparateInstancesAreIndependent",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/utils\/IdGeneratorTest.cpp",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "name": "PersonManagerPolymorphicTest",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "AddStudentDerivedVerification",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/person\/PersonManagerTest.cpp",
+          "line": 24
+        },
+        {
+          "name": "AddLecturerDerivedVerification",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/person\/PersonManagerTest.cpp",
+          "line": 39
+        },
+        {
+          "name": "PolymorphicListDeepCopyNoSlicing",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/person\/PersonManagerTest.cpp",
+          "line": 52
+        },
+        {
+          "name": "DeletePersonCascadingSafety",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/person\/PersonManagerTest.cpp",
+          "line": 67
+        }
+      ]
+    },
+    {
+      "name": "BuildingManagerTest",
+      "tests": 7,
+      "testsuite": [
+        {
+          "name": "AllAdded",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 15
+        },
+        {
+          "name": "FindByName",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 19
+        },
+        {
+          "name": "DuplicateNameUpdatesInPlace",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 25
+        },
+        {
+          "name": "FindByCity",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 33
+        },
+        {
+          "name": "FindByMinCapacity",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 38
+        },
+        {
+          "name": "DeleteBuilding",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 43
+        },
+        {
+          "name": "CopyConstructorIsDeep",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 50
+        }
+      ]
+    },
+    {
+      "name": "BuildingManagerEdgeTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "FindByNameOnEmptyManagerReturnsNull",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 59
+        },
+        {
+          "name": "NullNameIsRejected",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
+          "line": 64
+        }
+      ]
+    },
+    {
+      "name": "FacultyManagerTest",
+      "tests": 11,
+      "testsuite": [
+        {
+          "name": "AllFacultiesPresent",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 42
+        },
+        {
+          "name": "FindByCountry",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 46
+        },
+        {
+          "name": "FindOlderThan",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 51
+        },
+        {
+          "name": "AddBuildingToFacultySetsBackPointer",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 56
+        },
+        {
+          "name": "AddingBuildingToSecondFacultyTransfersIt",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 62
+        },
+        {
+          "name": "AddStudentSetsEmployedBy",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 70
+        },
+        {
+          "name": "AddLecturerSetsEmployedBy",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 76
+        },
+        {
+          "name": "AddSameBuildingTwiceIsIdempotent",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 82
+        },
+        {
+          "name": "RemovePersonClearsBackPointer",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 88
+        },
+        {
+          "name": "DuplicateNameUpdatesInPlace",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 94
+        },
+        {
+          "name": "DeleteFacultyClearsEntityBackPointers",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
+          "line": 102
+        }
+      ]
+    },
+    {
+      "name": "CourseManagerTest",
+      "tests": 16,
+      "testsuite": [
+        {
+          "name": "ScheduleCourseValid",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 53
+        },
+        {
+          "name": "ScheduleCoursePre1980Rejected",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 62
+        },
+        {
+          "name": "ScheduleCourseTooFarInFutureRejected",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 66
+        },
+        {
+          "name": "EctsTooLowRejected",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 70
+        },
+        {
+          "name": "EctsTooHighRejected",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 74
+        },
+        {
+          "name": "NullNameRejected",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 78
+        },
+        {
+          "name": "EnrollStudent",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 84
+        },
+        {
+          "name": "CapacityLimitEnforced",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 90
+        },
+        {
+          "name": "GradeStudentValidRange",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 97
+        },
+        {
+          "name": "GradeOutOfRangeRejected",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 103
+        },
+        {
+          "name": "UnenrollStudent",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 110
+        },
+        {
+          "name": "DeletingPersonRemovesFromCourseEnrollments",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 119
+        },
+        {
+          "name": "DeletingBuildingNullsCourseBuildingPointer",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 131
+        },
+        {
+          "name": "DeletingFacultyNullsCourseFacultyPointer",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 137
+        },
+        {
+          "name": "FindCoursesBySemester",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 145
+        },
+        {
+          "name": "FindCoursesByStudent",
+          "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/course\/CourseManagerTest.cpp",
+          "line": 153
+        }
+      ]
+    }
+  ]
+}
