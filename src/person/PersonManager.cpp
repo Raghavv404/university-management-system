@@ -178,6 +178,3 @@ void PersonManager::displayPeopleList() const {
     cout << "-------------------------------\n";
 }
 
-void PersonManager::setCourseManager(CourseManager* mgr) {
-    courseManager = mgr;
-}

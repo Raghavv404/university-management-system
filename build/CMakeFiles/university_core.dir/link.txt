@@ -1,0 +1,2 @@
+/usr/bin/ar qc libuniversity_core.a CMakeFiles/university_core.dir/src/utils/IdGenerator.cpp.o CMakeFiles/university_core.dir/src/person/PersonManager.cpp.o CMakeFiles/university_core.dir/src/building/BuildingManager.cpp.o CMakeFiles/university_core.dir/src/faculty/FacultyManager.cpp.o CMakeFiles/university_core.dir/src/course/CourseManager.cpp.o
+/usr/bin/ranlib libuniversity_core.a

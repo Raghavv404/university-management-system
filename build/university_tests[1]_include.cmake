@@ -1,0 +1,5 @@
+if(EXISTS "/Users/raghavverma/Desktop/OG university_project/build/university_tests[1]_tests.cmake")
+  include("/Users/raghavverma/Desktop/OG university_project/build/university_tests[1]_tests.cmake")
+else()
+  add_test(university_tests_NOT_BUILT university_tests_NOT_BUILT)
+endif()
