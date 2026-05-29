@@ -14,7 +14,6 @@ Location: Live on the STACK (the quick, temporary memory of the program).
 Location: Live on the HEAP (the massive, flexible memory sandbox of the computer).
 
 * ROLE & CHARACTERISTICS:
-  - Think of these as "The Workers" standing out in an open field.
   - Entities include: Person, Faculty, Building, Course, EnrollmentEntry.
   - Responsibility: They hold the actual raw data, such as names, IDs, grades, 
     and room numbers.

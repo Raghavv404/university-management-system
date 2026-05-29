@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-
 #include "../../src/building/BuildingManager.h"
 
 class BuildingManagerTest : public testing::Test {
@@ -19,15 +18,17 @@ TEST_F(BuildingManagerTest, AllAdded) {
 TEST_F(BuildingManagerTest, FindByName) {
     Building* b = bm.findBuildingByName("Main Hall");
     ASSERT_NE(b, nullptr);
-    EXPECT_EQ(b->data.maxCapacity, 800);
+    // FIX: Replaced b->data.maxCapacity with public getter
+    EXPECT_EQ(b->getMaxCapacity(), 800);
 }
 
 TEST_F(BuildingManagerTest, DuplicateNameUpdatesInPlace) {
     bm.building("Main Hall", POLAND, "Gdansk", 50, 1200);
     EXPECT_EQ(bm.getAllBuildingsCollection().size(), 3u);  // still 3, not 4
     Building* b = bm.findBuildingByName("Main Hall");
-    EXPECT_STREQ(b->data.city, "Gdansk");
-    EXPECT_EQ(b->data.maxCapacity, 1200);
+    // FIX: Replaced b->data.city and maxCapacity with public getters
+    EXPECT_STREQ(b->getCity(), "Gdansk");
+    EXPECT_EQ(b->getMaxCapacity(), 1200);
 }
 
 TEST_F(BuildingManagerTest, FindByCity) {
@@ -53,7 +54,8 @@ TEST_F(BuildingManagerTest, CopyConstructorIsDeep) {
     Building* clone    = copy.findBuildingByName("Main Hall");
     ASSERT_NE(clone, nullptr);
     EXPECT_NE(original, clone);
-    EXPECT_STREQ(original->data.name, clone->data.name);
+    // FIX: Replaced direct name data extraction with getName()
+    EXPECT_STREQ(original->getName(), clone->getName());
 }
 
 TEST(BuildingManagerEdgeTest, FindByNameOnEmptyManagerReturnsNull) {
