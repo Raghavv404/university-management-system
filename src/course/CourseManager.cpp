@@ -30,7 +30,7 @@ CourseManager::CourseManager(const CourseManager& other)
         clone->data.lecturer = cur->data.lecturer;
         clone->data.building = cur->data.building;
         
-        // Deep copy the intrusive enrollment linked list [cite: 564-565]
+        // Deep copy the intrusive enrollment linked list
         EnrollmentEntry* eTail = nullptr;
         for (EnrollmentEntry* eCur = cur->data.enrollments; eCur; eCur = eCur->next) {
             EnrollmentEntry* eClone = new EnrollmentEntry{eCur->student_id, eCur->final_grade, nullptr};
@@ -83,22 +83,22 @@ CourseManager& CourseManager::operator=(const CourseManager& other) {
 
 Course* CourseManager::course(const char* name, Semester semester, int ects,
                               Faculty* faculty, Lecturer* lecturer, Building* building) {
-    // 1) Validate name [cite: 634]
+    // 1) Validate name
     if (!name) {
         cout << "[course] rejected: name cannot be null\n";
         return nullptr;
     }
-    // 2) Validate semester date limits [cite: 16, 568-569]
+    // 2) Validate semester date limits
     if (semester.year < 1980 || semester.year > currentYear + 10) {
         cout << "[course] rejected: semester year " << semester.year << " is out of allowed range (1980 .. " << (currentYear + 10) << ")\n";
         return nullptr;
     }
-    // 3) Validate ECTS value boundaries [cite: 17, 570]
+    // 3) Validate ECTS value boundaries
     if (ects < 1 || ects > 30) {
         cout << "[course] rejected: ects " << ects << " out of range [1,30]\n";
         return nullptr;
     }
-    // 4) Soft warning if lecturer isn't employed by this faculty [cite: 574]
+    // 4) Soft warning if lecturer isn't employed by this faculty
     if (lecturer && faculty && lecturer->employedBy != faculty) {
         cout << "[course] warning: assigned lecturer is not employed by this faculty\n";
     }
@@ -122,7 +122,7 @@ Course* CourseManager::course(const char* name, Semester semester, int ects,
 bool CourseManager::enrollStudent(Course* course, uint32_t studentId) {
     if (!course) return false;
 
-    // Check duplicate registrations [cite: 18, 571]
+    // Check duplicate registrations
     int currentEnrollmentCount = 0;
     for (EnrollmentEntry* cur = course->data.enrollments; cur; cur = cur->next) {
         if (cur->student_id == studentId) {
@@ -132,13 +132,13 @@ bool CourseManager::enrollStudent(Course* course, uint32_t studentId) {
         currentEnrollmentCount++;
     }
 
-    // Check building physical capacity constraints [cite: 18, 572-573]
-    if (course->data.building && currentEnrollmentCount >= course->data.building->data.maxCapacity) {
+    // FIX: Replaced direct .data.maxCapacity bypass with the public interface method getMaxCapacity()
+    if (course->data.building && currentEnrollmentCount >= course->data.building->getMaxCapacity()) {
         cout << "[enrollStudent] rejected: building capacity reached\n";
         return false;
     }
 
-    // Prepend new node onto the intrusive array [cite: 593]
+    // Prepend new node onto the intrusive array
     EnrollmentEntry* entry = new EnrollmentEntry{studentId, -1.0f, course->data.enrollments};
     course->data.enrollments = entry;
     return true;
@@ -146,7 +146,7 @@ bool CourseManager::enrollStudent(Course* course, uint32_t studentId) {
 
 bool CourseManager::gradeStudent(Course* course, uint32_t studentId, float grade) {
     if (!course) return false;
-    // Validate grading standards (Polish 2.0-5.0 system scale) [cite: 263, 389-390]
+    // Validate grading standards (Polish 2.0-5.0 system scale)
     if ((grade < 2.0f || grade > 5.0f) && grade != -1.0f) {
         cout << "[gradeStudent] rejected: grade out of range\n";
         return false;
@@ -286,7 +286,6 @@ void CourseManager::removeBuildingFromCourseData(const Building* building) const
     }
 }
 
-// Look how clean! We inspect cur->data.lecturer directly without a .person hop!
 void CourseManager::removePersonFromCourseData(uint32_t personId) const {
     for (Course* cur = head; cur; cur = cur->next) {
         // 1) If the person was the lecturer, clear the reference safely
@@ -316,12 +315,13 @@ void CourseManager::removePersonFromCourseData(uint32_t personId) const {
 
 void CourseManager::displayCourse(const Course* c) {
     if (!c) return;
+    // FIX: Replaced direct .data.name text dumps with getName() to respect encapsulate parameters
     cout << "Course: " << (c->data.name ? c->data.name : "?")
          << " | ECTS: " << c->data.ects
          << " | Term: " << (c->data.semester.term == WINTER ? "Winter " : "Summer ") << c->data.semester.year
          << " | Faculty: " << (c->data.faculty && c->data.faculty->data.name ? c->data.faculty->data.name : "Unassigned")
          << " | Lecturer: " << (c->data.lecturer && c->data.lecturer->data.name ? c->data.lecturer->data.name : "Unassigned")
-         << " | Building: " << (c->data.building && c->data.building->data.name ? c->data.building->data.name : "Online/None") << '\n';
+         << " | Building: " << (c->data.building && c->data.building->getName() ? c->data.building->getName() : "Online/None") << '\n';
 }
 
 void CourseManager::displayCoursesList() const {

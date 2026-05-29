@@ -6,7 +6,7 @@
 #include "AcademicTitle.h"
 #include <cstring>
 
-class Lecturer : public Person {
+class Lecturer : public Person { // Inherits from Person, adding lecturer-specific attributes
 public:
     AcademicTitle title{ASSISTANT};
     char* specialization{nullptr};

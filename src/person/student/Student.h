@@ -5,7 +5,7 @@
 #include "../Person.h"
 #include "StudyLevel.h"
 
-class Student : public Person {
+class Student : public Person { // Inherits from Person, adding student-specific attributes
 public:
     StudyLevel level{BACHELOR};
     float gpa{-1.0f};

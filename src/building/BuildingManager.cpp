@@ -1,8 +1,6 @@
 #include "BuildingManager.h"
-
 #include <iostream>
 #include <cstring>
-
 #include "../faculty/FacultyManager.h"
 #include "../course/CourseManager.h"
 
@@ -12,28 +10,15 @@ using namespace std;
 
 void BuildingManager::clearBuildingMemory(const Building* b) {
     if (!b) return;
-    delete[] b->data.name;
-    delete[] b->data.city;
+    // FIX: Deleting the pointer now automatically invokes the Building class destructor, 
+    // safely freeing name and city raw C-string char allocations.
     delete b;
 }
 
 Building* BuildingManager::copyBuilding(const Building* other) {
     if (!other) return nullptr;
-    Building* b = new Building();
-    if (other->data.name) {
-        b->data.name = new char[strlen(other->data.name) + 1];
-        strcpy(b->data.name, other->data.name);
-    }
-    if (other->data.city) {
-        b->data.city = new char[strlen(other->data.city) + 1];
-        strcpy(b->data.city, other->data.city);
-    }
-    b->data.country = other->data.country;
-    b->data.roomCount = other->data.roomCount;
-    b->data.maxCapacity = other->data.maxCapacity;
-    b->ownedBy = nullptr;   // back-pointer cleared in deep copies
-    b->next = nullptr;
-    return b;
+    // FIX: Uses the Virtual Clone pattern to prevent breaches of private encapsulation boundaries.
+    return other->clone();
 }
 
 // ---- ctors / dtor / copy ---------------------------------------------------
@@ -77,26 +62,13 @@ void BuildingManager::building(const char* name, Country country, const char* ci
 
     // Update path: the name is unique, so a duplicate name updates in place.
     if (Building* existing = findBuildingByName(name)) {
-        delete[] existing->data.city;
-        existing->data.city = nullptr;
-        if (city) {
-            existing->data.city = new char[strlen(city) + 1];
-            strcpy(existing->data.city, city);
-        }
-        existing->data.country = country;
-        existing->data.roomCount = roomCount;
-        existing->data.maxCapacity = maxCapacity;
+        // FIX: Replaced direct struct manipulation with the clean, safe updateData() method interface.
+        existing->updateData(name, city, roomCount, maxCapacity);
         return;
     }
 
-    Building* b = new Building();
-    b->data.name = new char[strlen(name) + 1]; strcpy(b->data.name, name);
-    if (city) {
-        b->data.city = new char[strlen(city) + 1]; strcpy(b->data.city, city);
-    }
-    b->data.country = country;
-    b->data.roomCount = roomCount;
-    b->data.maxCapacity = maxCapacity;
+    // FIX: Replaced explicit raw field allocations with the parameterized Building constructor.
+    Building* b = new Building(name, country, city, roomCount, maxCapacity);
     b->next = head;
     head = b;
 }
@@ -117,8 +89,10 @@ vector<Building*> BuildingManager::getAllBuildingsCollection() const {
 
 Building* BuildingManager::findBuildingByName(const char* name) const {
     if (!name) return nullptr;
-    for (Building* cur = head; cur; cur = cur->next)
-        if (cur->data.name && strcmp(cur->data.name, name) == 0) return cur;
+    for (Building* cur = head; cur; cur = cur->next) {
+        // FIX: Used the getName() public accessor instead of un-encapsulated data struct parsing.
+        if (cur->getName() && strcmp(cur->getName(), name) == 0) return cur;
+    }
     return nullptr;
 }
 
@@ -130,21 +104,25 @@ vector<Building*> BuildingManager::filterBuildings(const vector<Building*>& buil
 }
 
 vector<Building*> BuildingManager::findBuildingsByCountry(Country country, const vector<Building*>& buildings) {
-    return filterBuildings(buildings, [country](Building* b){ return b->data.country == country; });
+    // FIX: Replaced b->data.country with b->getCountry() accessor.
+    return filterBuildings(buildings, [country](Building* b){ return b->getCountry() == country; });
 }
 
 vector<Building*> BuildingManager::findBuildingsByCity(const char* city, const vector<Building*>& buildings) {
+    // FIX: Replaced b->data.city with b->getCity() accessor.
     return filterBuildings(buildings, [city](Building* b){
-        return city && b->data.city && strcmp(b->data.city, city) == 0;
+        return city && b->getCity() && strcmp(b->getCity(), city) == 0;
     });
 }
 
 vector<Building*> BuildingManager::findBuildingsByMinCapacity(int minCapacity, const vector<Building*>& buildings) {
-    return filterBuildings(buildings, [minCapacity](Building* b){ return b->data.maxCapacity >= minCapacity; });
+    // FIX: Replaced b->data.maxCapacity with b->getMaxCapacity() accessor.
+    return filterBuildings(buildings, [minCapacity](Building* b){ return b->getMaxCapacity() >= minCapacity; });
 }
 
 vector<Building*> BuildingManager::findBuildingsByMaxCapacity(int maxCapacity, const vector<Building*>& buildings) {
-    return filterBuildings(buildings, [maxCapacity](Building* b){ return b->data.maxCapacity <= maxCapacity; });
+    // FIX: Replaced b->data.maxCapacity with b->getMaxCapacity() accessor.
+    return filterBuildings(buildings, [maxCapacity](Building* b){ return b->getMaxCapacity() <= maxCapacity; });
 }
 
 bool BuildingManager::deleteBuilding(Building* target) {
@@ -155,8 +133,9 @@ bool BuildingManager::deleteBuilding(Building* target) {
 
         // Cascading deletion:
         //   - drop from owning Faculty's list (via back-pointer).
-        if (cur->ownedBy) {
-            FacultyManager::removeBuildingFromFaculty(cur, cur->ownedBy);
+        // FIX: Replaced cur->ownedBy with cur->getFaculty() accessor method.
+        if (cur->getFaculty()) {
+            FacultyManager::removeBuildingFromFaculty(cur, cur->getFaculty());
         }
         //   - clear from any Course that referenced this Building.
         if (courseManager) {
@@ -181,10 +160,11 @@ void BuildingManager::deleteAllBuildings() {
 
 void BuildingManager::displayBuilding(const Building* b) {
     if (!b) return;
-    cout << "Building | " << (b->data.name ? b->data.name : "?")
-         << " | "         << (b->data.city ? b->data.city : "?")
-         << " | rooms="   << b->data.roomCount
-         << " | cap="     << b->data.maxCapacity << '\n';
+    // FIX: Modernized display loops to leverage your class getters.
+    cout << "Building | " << (b->getName() ? b->getName() : "?")
+         << " | "         << (b->getCity() ? b->getCity() : "?")
+         << " | rooms="   << b->getRoomCount()
+         << " | cap="     << b->getMaxCapacity() << '\n';
 }
 
 void BuildingManager::displayBuildingList() const {
