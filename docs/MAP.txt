@@ -1,0 +1,47 @@
+1. LEVEL 1: THE MANAGERS (Memory Owners)
+-------------------------------------------------------------------------------
+Location: Live on the STACK (the quick, temporary memory of the program).
+
+* ROLE & CHARACTERISTICS:
+  - Think of these managers as "The Bosses" (e.g., PersonManager, FacultyManager).
+  - They do NOT hold any raw university data inside themselves.
+  - Responsibility: Their sole job is to create new items, search through them, 
+    and completely delete them from the computer's memory when no longer needed.
+
+
+2. LEVEL 2: THE HEAP (Allocated Data)
+-------------------------------------------------------------------------------
+Location: Live on the HEAP (the massive, flexible memory sandbox of the computer).
+
+* ROLE & CHARACTERISTICS:
+  - Think of these as "The Workers" standing out in an open field.
+  - Entities include: Person, Faculty, Building, Course, EnrollmentEntry.
+  - Responsibility: They hold the actual raw data, such as names, IDs, grades, 
+    and room numbers.
+
+
+3. LINKAGE ARCHITECTURE (Solid vs. Dashed Lines)
+-------------------------------------------------------------------------------
+How the Stack Managers connect to and coordinate the Heap Data.
+
+* THE SOLID LINES: "Manages Linked List"
+  - Meaning: Indicates 100% legal ownership over allocating and destroying 
+    that data chain.
+  - Implementation: The project uses Intrusive Linked Lists. Each manager on the 
+    Stack holds a single pointer to the very first data node on the Heap (the head).
+  - Structure: That first data card points to the next card, forming a long chain.
+  - Lifecycle: When a manager creates or deletes, it handles the allocation and 
+    destruction of this chain to prevent memory leaks.
+
+* THE DASHED LINES: Sibling Cross-References
+  - Meaning: Represents shortcut paths and cross-references rather than 
+    direct memory ownership.
+  - Example: Dashed lines from FacultyManager pointing to Person and Building 
+    (labeled "allocates/deletes inside Faculty vectors").
+  - Implementation: While PersonManager owns the actual memory allocation of a 
+    human profile, FacultyManager maintains internal shortcut lists 
+    (std::vector<Student*> and std::vector<Lecturer*>) to link them to a department.
+  - Safety: When an item is wiped out by its main manager, these dashed paths 
+    show how the system automatically cleans up those shortcut references inside 
+    the faculty arrays, ensuring the program never hits a broken memory address 
+    and crashes.

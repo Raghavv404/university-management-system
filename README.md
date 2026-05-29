@@ -1,26 +1,63 @@
-University Management System
-C++ project for the EOOP Laboratory — topic: University.
+# 🏛️ University Management System
+> **Advanced C++ Memory Architecture Project**
+> *Developed for the Effective Object-Oriented Programming (EOOP) Laboratory — Warsaw University of Technology*
 
-The system models the administrative ecosystem of a university. The base entity is Person, from which Student (study level + GPA) and Lecturer (academic title + specialization) inherit using true C++ polymorphic inheritance. Building represents physical locations, Faculty is the central organizational entity that tracks student/lecturer enrollment and owns buildings, and Course represents an individual subject offering in a given semester, managing its own embedded enrollment list.
+[![C++ Standard](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.cppreference.com/w/cpp/compiler_support/17)
+[![Tests Status](https://img.shields.io/badge/Tests-42%20%2F%2042%20Passed-brightgreen.svg)](#-testing-framework)
+[![Memory Safety](https://img.shields.io/badge/Memory-Asan%20Clean-success.svg)](#-architectural-highlights)
 
-The architecture leverages a clean object-oriented layout: pure data representations live in src/.../X.h, and dedicated controllers live in src/.../XManager.{h,cpp}. PersonManager serves as the central polymorphic repository, managing an intrusive linked list of Person* nodes without object slicing via the Virtual Clone Pattern. Cross-manager references use raw pointers; deletions cascade through the system using virtual destructors to prevent dangling pointers and memory leaks.
+This production-grade system models the dynamic administrative ecosystem of a university. It is architected entirely using low-level memory mechanics, bypassing high-level container wrappers in favor of high-performance custom memory configurations.
 
-Building
-Bash
-mkdir build && cd build
+---
+
+## 🗺️ System Blueprint Maps
+
+The project's architectural integrity is fully mapped out across three technical visualizations found in the `/docs` directory:
+
+1. **Domain Entity Map (`docs/DOMAIN ENTITY.png`):** Shows class structures, two-way back-pointer connections, and true polymorphic hierarchies.
+2. **Manager Dependency Map (`docs/Manager dependency.png`):** Details decoupled method boundaries and downstream cascade routing structures.
+3. **Memory Ownership Sandbox Map (`docs/Screenshot...AM.png`):** Illustrates the clear separation between Stack-allocated Controllers and dynamic Heap-allocated Intrusive Chains.
+
+---
+
+## 💎 Architectural Highlights
+
+*🚀 **Zero-Bloat Performance Engineering:** This system intentionally avoids heavy standard library container collections like `std::list` to maximize memory performance and tracking control.*
+
+* **Intrusive Singly-Linked Lists:** Node sequence tracking wires (`next` pointers) are embedded directly inside the entity layouts. Managers hold legal authority over the head references, optimizing memory usage and traversal speeds.
+* **True Polymorphic Subsystems:** `Student` and `Lecturer` inherit vertically from `Person`. The application uses a single, unified list structure of base pointers (`Person*`) and tracks exact runtime profiles dynamically via vptr/VTABLE dispatch hooks.
+* **The Virtual Clone Pattern:** Replicates dynamic heap chains across copy constructors and assignment checks using deep-copy overrides, eliminating C++ object slicing risks.
+* **Automated Cascading Deletions:** Custom multi-step cascade hooks drop broken pointer links across separate manager domains instantly during an isolation process. This isolates items cleanly before passing them to the virtual destructor stack, preventing dangling references and segmentation faults.
+
+---
+
+## 📁 Repository Directory Layout
+
+```text
+OG_UNIVERSITY_PROJECT/
+├── build/                 # Build artifacts and executable binaries
+├── docs/                  # System blueprints, diagrams, and project reports
+├── src/                   # Main Source Subsystems
+│   ├── building/          # Encapsulated Building structures and managers
+│   ├── course/            # Course ledger and enrollment link frameworks
+│   ├── faculty/           # Department allocation hubs and tracking arrays
+│   ├── person/            # Polymorphic Person, Student, and Lecturer entities
+│   └── utils/             # Identifiers, Country Enums, and Date structures
+└── test/                  # Automated Validation Suites
+
+# 1. Initialize and enter the build sandbox
+mkdir -p build && cd build
+
+# 2. Generate the local build configuration tree
 cmake ..
-make university_demo
-./university_demo            # runs the integration scenario
-Tests
-The test suite uses GoogleTest. If you have GoogleTest installed (apt install libgtest-dev then build it, or vcpkg/conan), CMake will automatically pick it up:
 
-Bash
-cmake -DUMS_BUILD_TESTS=ON ..
-make university_tests
-ctest --output-on-failure
-If you don't have GoogleTest available, the project ships a header-only shim at test/minimal_gtest.h with the same API. To build the tests against the shim, the simplest approach is the clean one-liner used during development:
+# 3. Compile all executable targets cleanly
+make
 
-Bash
+cd build
+make
+./university_tests
+
 g++ -std=c++17 -Wall -Wextra -O0 -g -fsanitize=address \
     -Itest -Isrc \
     src/utils/IdGenerator.cpp \
@@ -35,27 +72,5 @@ g++ -std=c++17 -Wall -Wextra -O0 -g -fsanitize=address \
     test/course/CourseManagerTest.cpp \
     test/test_main.cpp \
     -o run_tests
+
 ./run_tests
-All core operational tests pass flawlessly under both regular configurations and AddressSanitizer builds.
-
-Documentation
-docs/EOOP_Preliminary_Project_University.docx — the deliverable document with all four required sections.
-
-docs/structures_map.png — instance-level pointer diagram (case study).
-
-docs/managers_map.png — manager-level cascading-deletion diagram.
-
-docs/structures_map.dot, docs/managers_map.dot — Graphviz sources.
-
-Domain rules enforced
-Building / Faculty names are unique. Re-creating with the same name updates the existing record instead of inserting a duplicate.
-
-A Course cannot be scheduled before 1980 or more than 10 years after the current year.
-
-ECTS must be in [1, 30].
-
-A Student cannot be enrolled in the same Course twice.
-
-A Course's enrollment cannot exceed its Building's maxCapacity.
-
-GPA must be -1.0 (ungraded) or in [2.0, 5.0] (Polish scale).

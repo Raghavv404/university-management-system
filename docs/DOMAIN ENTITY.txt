@@ -1,0 +1,77 @@
+1. THE HUMAN GROUP: PERSON, STUDENT, AND LECTURER
+-------------------------------------------------------------------------------
+The foundation of the system starts with a generic human being.
+
+* PERSON (Base Layout)
+  Every person in the system automatically receives the following attributes:
+  - ID
+  - First Name
+  - Last Name
+  - Age
+  - Nationality
+
+* INHERITANCE (The "<|--" Arrows)
+  - Definition: Solid lines with empty arrowheads pointing up from 'Lecturer' 
+    and 'Student' into 'Person'.
+  - Meaning: A Student IS A Person, and a Lecturer IS A Person. Both 
+    automatically inherit all fields of a Person without rewriting them.
+
+* SPECIAL FEATURES / SPECIALIZATIONS
+  - Student: A unique type of person who also possesses:
+    - GPA (Grades)
+    - Level (e.g., Bachelor, Master)
+  - Lecturer: A unique type of person who also possesses:
+    - Academic Title (e.g., PhD)
+    - Teaching Specialization
+
+
+2. THE DEPARTMENT HUB: FACULTY AND BUILDING
+-------------------------------------------------------------------------------
+This section handles the physical campus structures and organizational ownership.
+
+* FACULTY (The Main Boss)
+  - Definition: Represents a department instance (e.g., Faculty of Computing).
+  - Ownership: It physically owns the listings. Arrows pointing down labeled 
+    "hires" and "owns" represent arrays (std::vector) that track:
+    - Every Student* enrolled in that department.
+    - Every Lecturer* hired to teach there.
+    - Every Building* room asset it controls.
+
+* BUILDING (A Location)
+  - Holds simple structural stats:
+    - roomCount
+    - maxCapacity (how many people can fit inside)
+
+* THE DASHED BACK-POINTERS
+  - Definition: Dashed lines pointing back up to Faculty labeled "employedBy" 
+    and "ownedBy".
+  - Purpose: Allows a person or building to look backwards and reference, 
+    "I belong to the Computer Science Faculty." 
+  - Benefit: This two-way connection is exactly what allows the cascading 
+    deletion system to work seamlessly without crashing.
+
+
+3. THE SCHEDULING CORE: COURSE AND ENROLLMENTENTRY
+-------------------------------------------------------------------------------
+This section manages active classes and data tracking over a semester.
+
+* COURSE (The Matchmaker)
+  - Purpose: Does not permanently own people; instead, it temporarily links 
+    items together for the duration of a semester.
+  - To run a class, a Course holds pointers to three distinct elements:
+    1. faculty: The department running/funding it.
+    2. lecturer: The professor standing at the front chalkboard (taught by).
+    3. building: The physical room where students sit (scheduled in).
+
+* ENROLLMENTENTRY (How Grades are Tracked)
+  - Relationship: Represented by a solid black diamond line running from 
+    'Course' down to 'EnrollmentEntry' labeled "owns (linked list)".
+  - Mechanism: Instead of storing a massive table of students inside the 
+    course, a Course points to a small link chain called an EnrollmentEntry.
+  - Data Structure: Each link card in this chain holds:
+    - Student's ID
+    - Final Grade
+    - Pointer to the next card (Linked List)
+  - Connection: Uses a dashed line ("references via ID") to link that grade 
+    back to the actual Student profile.
+===============================================================================

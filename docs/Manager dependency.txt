@@ -1,0 +1,39 @@
+1. THE PERSONMANAGER TRIGGER PIPELINE (The Top-Down Flow)
+-------------------------------------------------------------------------------
+Trigger: Actioned when calling 'deletePerson(personId)' 
+         (e.g., a student leaves the university or a lecturer is removed).
+
+* TO FACULTY:
+  - Action: Triggers 'FacultyManager::removePersonFromFaculty()'.
+  - Result: Scrubs that specific person's pointer completely out of the 
+            faculty department's tracking lists.
+
+* TO COURSE:
+  - Action: Simultaneously calls 'CourseManager::removePersonFromCourseData()'.
+  - Result: Automatically unenrolls the student from all active courses OR 
+            cancels the lecturer's classes so no courses are left stranded 
+            with a missing instructor.
+
+
+2. THE FACULTYMANAGER TRIGGER PIPELINE (The Department Shutdown)
+-------------------------------------------------------------------------------
+Trigger: Actioned when a whole department is closed via 'deleteFaculty(faculty)'.
+
+* TO COURSE:
+  - Action: Calls 'CourseManager::removeFacultyFromCourseData()'.
+  - Result: The course system searches for any classes funded or run by that 
+            specific department and marks their faculty reference as 'nullptr' 
+            so they aren't tied to a non-existent faculty.
+
+
+3. THE BUILDINGMANAGER TRIGGER PIPELINE (The Room Closure)
+-------------------------------------------------------------------------------
+Trigger: Actioned when a physical campus hall is closed via 'deleteBuilding(building)'.
+
+* TO COURSE:
+  - Action: Calls 'CourseManager::removeBuildingFromCourseData()'.
+  - Result: The course manager sweeps through all active timetables and clears 
+            that building location pointer, changing it to 'nullptr' 
+            (effectively marking it Online/None) so students aren't directed 
+            to a classroom that no longer exists.
+===============================================================================
