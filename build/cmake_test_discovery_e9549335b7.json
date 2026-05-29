@@ -51,12 +51,12 @@
         {
           "name": "AllAdded",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 15
+          "line": 14
         },
         {
           "name": "FindByName",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 19
+          "line": 18
         },
         {
           "name": "DuplicateNameUpdatesInPlace",
@@ -66,22 +66,22 @@
         {
           "name": "FindByCity",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 33
+          "line": 34
         },
         {
           "name": "FindByMinCapacity",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 38
+          "line": 39
         },
         {
           "name": "DeleteBuilding",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 43
+          "line": 44
         },
         {
           "name": "CopyConstructorIsDeep",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 50
+          "line": 51
         }
       ]
     },
@@ -92,12 +92,12 @@
         {
           "name": "FindByNameOnEmptyManagerReturnsNull",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 59
+          "line": 61
         },
         {
           "name": "NullNameIsRejected",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/building\/BuildingManagerTest.cpp",
-          "line": 64
+          "line": 66
         }
       ]
     },
@@ -128,37 +128,37 @@
         {
           "name": "AddingBuildingToSecondFacultyTransfersIt",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
-          "line": 62
+          "line": 63
         },
         {
           "name": "AddStudentSetsEmployedBy",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
-          "line": 70
+          "line": 72
         },
         {
           "name": "AddLecturerSetsEmployedBy",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
-          "line": 76
+          "line": 78
         },
         {
           "name": "AddSameBuildingTwiceIsIdempotent",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
-          "line": 82
+          "line": 84
         },
         {
           "name": "RemovePersonClearsBackPointer",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
-          "line": 88
+          "line": 90
         },
         {
           "name": "DuplicateNameUpdatesInPlace",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
-          "line": 94
+          "line": 96
         },
         {
           "name": "DeleteFacultyClearsEntityBackPointers",
           "file": "\/Users\/raghavverma\/Desktop\/OG university_project\/test\/faculty\/FacultyManagerTest.cpp",
-          "line": 102
+          "line": 104
         }
       ]
     },

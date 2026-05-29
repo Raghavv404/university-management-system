@@ -37,10 +37,19 @@ public:
     }
 
     void display() const override {
+        // Map the exact AcademicTitle enum fields to clean text strings
+        const char* titleStr = "Unknown";
+        switch (title) {
+            case ASSISTANT:          titleStr = "Assistant"; break;
+            case DOCTOR:             titleStr = "Doctor"; break;
+            case DOCTOR_HABILITATED: titleStr = "Doctor Habilitated"; break;
+            case PROFESSOR:          titleStr = "PROFESSOR"; break;
+        }
+
         std::cout << "[Lecturer] ID: " << id
                   << " | " << (data.name ? data.name : "?")
                   << " "   << (data.surname ? data.surname : "?")
-                  << " | Title: " << title
+                  << " | Title: " << titleStr // Prints human-readable text!
                   << " | Specialization: " << (specialization ? specialization : "?") << '\n';
     }
 };
